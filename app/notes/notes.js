@@ -11,7 +11,7 @@ function notesConfig($stateProvider, $urlRouterProvider) {
       url: '/notes',
       abstract: true,
       templateUrl: '/notes/notes.html',
-      controller: NotesController
+      controller: NotesController,
     })
 
     .state('notes.form', {
@@ -21,7 +21,10 @@ function notesConfig($stateProvider, $urlRouterProvider) {
     });
 }
 
-NotesController['$inject'] = ['$state'];
-function NotesController($state) {
+NotesController['$inject'] = ['$state', '$scope', 'notes'];
+function NotesController($state, $scope, notes) {
+  notes.fetchNotes(function(notes) {
+    $scope.notes = notes;
+  });
   $state.go('notes.form');
 }

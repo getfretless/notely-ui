@@ -6,8 +6,11 @@
           New Note
         </button>
         <ul id="notes">
-          <li>Note 1</li>
-          <li>Note 2</li>
+          <li id="note_{{ note.id }}"
+            ng-repeat="note in notes | orderBy: '-id' | limitTo: 10"
+            ng-click="loadNote(note)">
+            <a ui-sref="notes.form({noteId:note.id})">{{ note.title }}</a>
+          </li>
         </ul>
       </nav>
     </div>

@@ -1,5 +1,5 @@
 (function() {
-  var notely = angular.module('notely', [
+  var app = angular.module('notely', [
     'ui.router'
   ]);
 
@@ -18,5 +18,5 @@
   }
 
   config['$inject'] = ['$stateProvider', '$urlRouterProvider'];
-  notely.config(config);
+  app.config(config);
 })();

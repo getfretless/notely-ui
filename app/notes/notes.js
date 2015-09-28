@@ -9,6 +9,7 @@ function notesConfig($stateProvider, $urlRouterProvider) {
 
     .state('notes', {
       url: '/notes',
+      abstract: true,
       templateUrl: '/notes/notes.html',
       controller: NotesController
     })
@@ -16,16 +17,11 @@ function notesConfig($stateProvider, $urlRouterProvider) {
     .state('notes.form', {
       url: '/:noteId',
       controller: function() {},
-      views: {
-        form: {
-          template: 'w00t'
-        }
-      }
+      templateUrl: '/notes/notes-form.html'
     });
 }
 
-NotesController['$inject'] = ['$scope', '$state'];
-function NotesController($scope, $state) {
-  $scope.message = "Welcome to Notely!";
+NotesController['$inject'] = ['$state'];
+function NotesController($state) {
   $state.go('notes.form');
 }

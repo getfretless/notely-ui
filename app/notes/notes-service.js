@@ -1,6 +1,6 @@
 angular.module('notely.notes.service', [])
 
-.service('notes', function ($http) {
+.service('notes', ['$http', '$filter', function ($http, $filter) {
   var nevernoteBasePath = 'https://nevernote-1150.herokuapp.com/api/v1/';
   var user = { api_key: '$2a$10$TTc8gLTzfWBk9SsDO7p.J.acOzMMG535814CudrCMQgmjUSvbQ2ju' };
   var notes = [];
@@ -16,4 +16,8 @@ angular.module('notely.notes.service', [])
         typeof callback === 'function' && callback(notes);
       });
   };
-});
+
+  this.findNoteById = function(noteId) {
+    return $filter('filter')(notes, { id: parseInt(noteId) }, true)[0];
+  };
+}]);

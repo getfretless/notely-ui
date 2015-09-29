@@ -33,6 +33,6 @@
 
   NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
   function NotesFormController($scope, $state, notesService) {
-    console.log($state.params.noteId);
+    console.log(notesService.findNoteById($state.params.noteId));
   }
 })();

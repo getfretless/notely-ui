@@ -3,6 +3,7 @@
     'ui.router'
   ])
   .controller('NotesController', NotesController)
+  .controller('NotesFormController', NotesFormController)
   .config(notesConfig);
 
   notesConfig['$inject'] = ['$stateProvider'];
@@ -16,8 +17,9 @@
       })
 
       .state('notes.form', {
-        url: '/:noteId',
-        templateUrl: '/notes/notes-form.html'
+        url: '/{noteId}',
+        templateUrl: '/notes/notes-form.html',
+        controller: NotesFormController
       });
   }
 
@@ -27,5 +29,10 @@
       $scope.notes = notes;
     });
     $state.go('notes.form');
+  }
+
+  NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
+  function NotesFormController($scope, $state, notesService) {
+    console.log($state.params.noteId);
   }
 })();

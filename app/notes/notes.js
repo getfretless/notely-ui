@@ -13,6 +13,11 @@
       .state('notes', {
         url: '/notes',
         templateUrl: '/notes/notes.html',
+        resolve: {
+          notes: function(notes) {
+            return notes.fetchNotes();
+          }
+        },
         controller: NotesController
       })
 
@@ -25,14 +30,12 @@
 
   NotesController['$inject'] = ['$scope', '$state', 'notes'];
   function NotesController($scope, $state, notesService) {
-    notesService.fetchNotes(function(notes) {
-      $scope.notes = notes;
-    });
+    $scope.notes = notesService.all();
     $state.go('notes.form');
   }
 
   NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
-  function NotesFormController($scope, $state, notesService) {
-    console.log(notesService.findNoteById($state.params.noteId));
+  function NotesFormController($scope, $state, notes) {
+    console.log(notes.findNoteById($state.params.noteId));
   }
 })();

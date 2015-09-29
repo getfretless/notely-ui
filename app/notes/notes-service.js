@@ -10,7 +10,7 @@ angular.module('notely.notes.service', [])
   };
 
   this.fetchNotes = function (callback) {
-    $http.get(nevernoteBasePath + 'notes?api_key=' + user.api_key)
+    return $http.get(nevernoteBasePath + 'notes?api_key=' + user.api_key)
       .success(function(notesData) {
         notes = notesData;
         typeof callback === 'function' && callback(notes);
@@ -18,6 +18,6 @@ angular.module('notely.notes.service', [])
   };
 
   this.findNoteById = function(noteId) {
-    return $filter('filter')(notes, { id: parseInt(noteId) }, true)[0];
+    return ($filter('filter')(notes, { id: parseInt(noteId) }, true)[0] || {});
   };
 }]);

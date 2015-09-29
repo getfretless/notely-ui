@@ -14,7 +14,7 @@
         url: '/notes',
         templateUrl: '/notes/notes.html',
         resolve: {
-          notes: function(notes) {
+          fetchNotes: function(notes) {
             return notes.fetchNotes();
           }
         },

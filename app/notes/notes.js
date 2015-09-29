@@ -1,30 +1,31 @@
-angular
-  .module('notely.notes', ['ui.router'])
+(function() {
+  angular.module('notely.notes', [
+    'ui.router'
+  ])
   .controller('NotesController', NotesController)
   .config(notesConfig);
 
-notesConfig['$inject'] = ['$stateProvider', '$urlRouterProvider'];
-function notesConfig($stateProvider, $urlRouterProvider) {
-  $stateProvider
+  notesConfig['$inject'] = ['$stateProvider'];
+  function notesConfig($stateProvider) {
+    $stateProvider
 
-    .state('notes', {
-      url: '/notes',
-      abstract: true,
-      templateUrl: '/notes/notes.html',
-      controller: NotesController,
-    })
+      .state('notes', {
+        url: '/notes',
+        templateUrl: '/notes/notes.html',
+        controller: NotesController
+      })
 
-    .state('notes.form', {
-      url: '/:noteId',
-      controller: function() {},
-      templateUrl: '/notes/notes-form.html'
+      .state('notes.form', {
+        url: '/:noteId',
+        templateUrl: '/notes/notes-form.html'
+      });
+  }
+
+  NotesController['$inject'] = ['$scope', '$state', 'notes'];
+  function NotesController($scope, $state, notesService) {
+    notesService.fetchNotes(function(notes) {
+      $scope.notes = notes;
     });
-}
-
-NotesController['$inject'] = ['$state', '$scope', 'notes'];
-function NotesController($state, $scope, notes) {
-  notes.fetchNotes(function(notes) {
-    $scope.notes = notes;
-  });
-  $state.go('notes.form');
-}
+    $state.go('notes.form');
+  }
+})();

@@ -22,8 +22,8 @@ angular.module('notely')
     };
 
     this.logout = function() {
-      CurrentUser.set({});
-      AuthToken.set(undefined);
+      CurrentUser.clear();
+      AuthToken.clear();
       $state.go('login');
     };
   }

@@ -4,15 +4,20 @@
 
   AuthToken['$inject'] = ['$window'];
   function AuthToken($window) {
-    var currentToken = $window.sessionStorage.authToken;
+    var authToken = JSON.parse($window.localStorage.getItem('authToken')) || undefined;
 
     this.set = function(token) {
-      currentToken = token;
-      $window.sessionStorage.authToken = currentToken;
+      authToken = token;
+      $window.localStorage.setItem('authToken', JSON.stringify(authToken));
     };
 
     this.get = function() {
-      return currentToken;
-    }
+      return authToken;
+    };
+
+    this.clear = function() {
+      $window.localStorage.removeItem('authToken');
+      authToken = undefined;
+    };
   }
 })();

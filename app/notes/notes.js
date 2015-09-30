@@ -15,6 +15,19 @@
         resolve: {
           notePromise: function(notes) {
             return notes.fetchNotes();
+          },
+          loggedIn: function($q, $state, $timeout, CurrentUser) {
+            var deferred = $q.defer();
+            $timeout(function() {
+              if (CurrentUser.get().id) {
+                deferred.resolve();
+              }
+              else {
+                deferred.reject();
+                $state.go('login');
+              }
+            });
+            return deferred.promise;
           }
         },
         templateUrl: '/notes/notes.html',

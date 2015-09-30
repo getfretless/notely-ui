@@ -4,15 +4,20 @@
 
   CurrentUser['$inject'] = ['$window'];
   function CurrentUser($window) {
-    var currentUser = $window.sessionStorage.currentUser || {};
+    var currentUser = JSON.parse($window.localStorage.getItem('currentUser')) || {};
 
     this.set = function(user) {
       currentUser = user;
-      $window.sessionStorage.currentUser = currentUser;
+      $window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
     };
 
     this.get = function() {
       return currentUser;
-    }
+    };
+
+    this.clear = function() {
+      $window.localStorage.removeItem('currentUser');
+      currentUser = {};
+    };
   }
 })();

@@ -20,7 +20,9 @@
     $scope.user = {};
 
     $scope.login = function() {
-      console.log("User: " + $scope.user.username);
+      login.login($scope.user).success(function(result) {
+        $state.go('notes.form', { noteId: undefined });
+      });
     }
   }
 })();

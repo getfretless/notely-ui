@@ -15,8 +15,8 @@
       });
   }
 
-  LoginController['$inject'] = ['$scope', '$state'];
-  function LoginController($scope, $state) {
+  LoginController['$inject'] = ['$scope', '$state', 'login'];
+  function LoginController($scope, $state, login) {
     $scope.user = {};
 
     $scope.login = function() {

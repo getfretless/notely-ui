@@ -11,15 +11,25 @@
       .state('login', {
         url: '/login',
         templateUrl: '/login/login.html',
-        controller: LoginController
+        controller: LoginController,
+        resolve: {
+          loggedOut: function($q, $state, CurrentUser) {
+            var deferred = $q.defer();
+            if (CurrentUser.get().id) {
+              $state.go('notes.form');
+              deferred.reject();
+            }
+            else {
+              deferred.resolve();
+            }
+            return deferred.promise;
+          }
+        }
       });
   }
 
   LoginController['$inject'] = ['$scope', '$state', 'CurrentUser', 'login'];
   function LoginController($scope, $state, CurrentUser, login) {
-    if(CurrentUser.get().id) {
-      $state.go('notes.form');
-    }
     $scope.user = {};
 
     $scope.login = function() {

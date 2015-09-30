@@ -13,15 +13,17 @@
         templateUrl: '/login/login.html',
         controller: LoginController,
         resolve: {
-          loggedOut: function($q, $state, CurrentUser) {
+          loggedOut: function($q, $state, $timeout, CurrentUser) {
             var deferred = $q.defer();
-            if (CurrentUser.get().id) {
-              $state.go('notes.form');
-              deferred.reject();
-            }
-            else {
-              deferred.resolve();
-            }
+            $timeout(function() {
+              if (CurrentUser.get().id) {
+                $state.go('notes.form');
+                deferred.reject();
+              }
+              else {
+                deferred.resolve();
+              }
+            });
             return deferred.promise;
           }
         }

@@ -4,7 +4,7 @@
 
   CurrentUser['$inject'] = ['$window'];
   function CurrentUser($window) {
-    var currentUser = $window.sessionStorage.currentUser;
+    var currentUser = $window.sessionStorage.currentUser || {};
 
     this.set = function(user) {
       currentUser = user;

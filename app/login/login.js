@@ -15,8 +15,11 @@
       });
   }
 
-  LoginController['$inject'] = ['$scope', '$state', 'login'];
-  function LoginController($scope, $state, login) {
+  LoginController['$inject'] = ['$scope', '$state', 'CurrentUser', 'login'];
+  function LoginController($scope, $state, CurrentUser, login) {
+    if(CurrentUser.get().id) {
+      $state.go('notes.form');
+    }
     $scope.user = {};
 
     $scope.login = function() {

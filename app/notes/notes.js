@@ -1,9 +1,8 @@
 (function() {
   angular.module('notely.notes', [
-    'ui.router'
+    'ui.router',
+    'textAngular'
   ])
-  .controller('NotesController', NotesController)
-  .controller('NotesFormController', NotesFormController)
   .config(notesConfig);
 
   notesConfig['$inject'] = ['$stateProvider'];
@@ -12,12 +11,13 @@
 
       .state('notes', {
         url: '/notes',
-        templateUrl: '/notes/notes.html',
+        abstract: true,
         resolve: {
-          fetchNotes: function(notes) {
+          notePromise: function(notes) {
             return notes.fetchNotes();
           }
         },
+        templateUrl: '/notes/notes.html',
         controller: NotesController
       })
 
@@ -29,13 +29,37 @@
   }
 
   NotesController['$inject'] = ['$scope', '$state', 'notes'];
-  function NotesController($scope, $state, notesService) {
-    $scope.notes = notesService.all();
-    $state.go('notes.form');
+  function NotesController($scope, $state, notes) {
+    $scope.notes = notes.all();
   }
 
   NotesFormController['$inject'] = ['$scope', '$state', 'notes'];
   function NotesFormController($scope, $state, notes) {
-    console.log(notes.findNoteById($state.params.noteId));
+    $scope.note = notes.findById($state.params.noteId);
+
+    $scope.buttonText = function() {
+      if ($scope.note.id) {
+        return 'Save Changes';
+      }
+      return 'Save';
+    }
+
+    $scope.save = function() {
+      if ($scope.note.id) {
+        notes.update($scope.note).success(function(data) {
+          $scope.note = data.note;
+        });
+      }
+      else {
+        notes.create($scope.note);
+      }
+    }
+
+    $scope.delete = function() {
+      notes.delete($scope.note)
+      .success(function() {
+        $state.go('notes.form', { noteId: undefined });
+      });
+    }
   }
 })();

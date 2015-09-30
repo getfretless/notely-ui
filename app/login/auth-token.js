@@ -8,7 +8,7 @@
 
     this.set = function(token) {
       currentToken = token;
-      $window.sessionStorage.authToken = token;
+      $window.sessionStorage.authToken = currentToken;
     };
 
     this.get = function() {

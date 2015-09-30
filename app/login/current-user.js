@@ -2,11 +2,13 @@
   angular.module('notely.login')
     .service('CurrentUser', CurrentUser);
 
-  function CurrentUser() {
-    var currentUser;
+  CurrentUser['$inject'] = ['$window'];
+  function CurrentUser($window) {
+    var currentUser = $window.sessionStorage.currentUser;
 
     this.set = function(user) {
-      var currentToken = user;
+      currentUser = user;
+      $window.sessionStorage.currentUser = currentUser;
     };
 
     this.get = function() {
